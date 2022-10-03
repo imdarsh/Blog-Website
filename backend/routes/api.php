@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\ApiAuthController;
 
 
 /*
@@ -21,9 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/posts', [PostsController::class, 'index']);
-Route::post('/posts', [PostsController::class, 'store']);
-Route::delete('/posts/{post}', [PostsController::class, 'destroy']);
+Route::post('/posts', [PostsController::class, 'store'])->middleware('auth:sanctum');
+Route::delete('/posts/{post}', [PostsController::class, 'destroy'])->middleware('auth:sanctum');
 Route::get('/posts/{post}', [PostsController::class,'show']);
-Route::put('/posts/{post}', [PostsController::class,'update']);
+Route::put('/posts/{post}', [PostsController::class,'update'])->middleware('auth:sanctum');
 
-
+Route::post('/login', [ApiAuthController::class,'login']);
+Route::post('/register',[ApiAuthController::class,'register']);
